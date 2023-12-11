@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id   String @id @default(uuid()) @db.UniqueIdentifier
+  name String
+  slug String @unique
+
+  @@map("roles")
+}
+
+model User {
+  id       String @id @default(uuid()) @db.UniqueIdentifier
+  name     String
+  email    String @unique
+  password String
+
+  isActive  Boolean @default(true)
+  isDeleted Boolean @default(false)
+
+  createdAt DateTime  @default(now()) @db.DateTime2
+  updatedAt DateTime? @updatedAt @db.DateTime2
+  deletedAt DateTime? @db.DateTime2
+
+  @@map("users")
+}
+
+model Patient {
+  id   String @id @default(uuid()) @db.UniqueIdentifier
+  name String
+
+  isActive  Boolean @default(true)
+  isDeleted Boolean @default(false)
+
+  createdAt DateTime  @default(now()) @db.DateTime2
+  updatedAt DateTime? @updatedAt @db.DateTime2
+  deletedAt DateTime? @db.DateTime2
+
+  @@map("patients")
+}
